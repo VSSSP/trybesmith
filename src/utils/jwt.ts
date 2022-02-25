@@ -1,5 +1,4 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { UsernameAndId } from './interfaces/usersInterfaces';
 
 const jwtConfig: SignOptions = {
   expiresIn: '1d',
@@ -16,12 +15,13 @@ const login = (username: string, password: string): string => {
   return token;
 };
 
-// const userLogin = (token: string) => {
-//   const user = jwt.verify(token, 'password', jwtConfig);
-//   return user ? user as UsernameAndId : null;
-// };
+const verifyToken = (token: string) => {
+  const user = jwt.verify(token, 'password', jwtConfig);
+  return user;
+};
 
 export default {
   createUser,
   login,
+  verifyToken,
 };

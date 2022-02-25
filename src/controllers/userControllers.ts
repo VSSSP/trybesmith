@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import usersServices from '../services/usersServices';
-import jwt from '../jwt';
+import jwt from '../utils/jwt';
 
 const getAll = async (req: Request, res: Response) => {
   const users = await usersServices.getAll();
