@@ -4,7 +4,7 @@ import userSchemas from '../schemas/userSchemas';
 const validateUser = (req: Request, res: Response, next: NextFunction) => {
   const checkUser = userSchemas.userValidation(req.body);
   if (checkUser) {
-    return res.status(checkUser.code).json({ message: checkUser.message });
+    return res.status(checkUser.code).json({ error: checkUser.message });
   }
   next();
 };
