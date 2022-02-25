@@ -8,3 +8,5 @@ export interface InputUser {
 export interface User extends InputUser {
   id: number,
 }
+
+// Register / Login

@@ -6,6 +6,12 @@ const getAll = async (): Promise<User[]> => {
   return users;
 };
 
+const createUser = async (user: User): Promise<User> => {
+  const newUser = await userModels.createUser(user);
+  return newUser;
+};
+
 export default {
   getAll,
+  createUser,
 };
