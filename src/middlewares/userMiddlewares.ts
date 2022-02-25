@@ -9,6 +9,16 @@ const validateUser = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+const validateLogin = async (req: Request, res: Response, next: NextFunction) => {
+  const { username, password } = req.body;
+  const checkLogin = await userSchemas.loginValidation(username, password);
+  if (checkLogin) {
+    return res.status(checkLogin.code).json({ error: checkLogin.message });
+  }
+  next();
+};
+
 export default {
   validateUser,
+  validateLogin,
 };

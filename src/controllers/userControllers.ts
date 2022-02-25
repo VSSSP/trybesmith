@@ -14,7 +14,14 @@ const createUser = async (req: Request, res: Response) => {
   res.status(201).json({ token });
 };
 
+const login = async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+  const token = jwt.login(username, password);
+  res.status(200).json({ token });
+};
+
 export default {
   getAll,
   createUser,
+  login,
 };
