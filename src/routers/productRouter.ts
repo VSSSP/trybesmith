@@ -11,4 +11,6 @@ router.post(
   productControllers.createProduct,
 );
 
+router.get('/', productMiddlewares.validateToken, productControllers.getAll);
+
 export default router;

@@ -10,6 +10,13 @@ const createProduct = async (product: InputProduct): Promise<Product> => {
   return newProduct;
 };
 
+const getAll = async (): Promise<Product[]> => {
+  const [rows] = await connection.execute('SELECT * FROM Trybesmith.Products');
+  const products = rows as Product[];
+  return products;
+};
+
 export default {
   createProduct,
+  getAll,
 };
