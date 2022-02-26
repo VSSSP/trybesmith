@@ -1,5 +1,4 @@
 import { ResultSetHeader } from 'mysql2';
-import { Orders } from '../interfaces/ordersInterfaces';
 import connection from './connection';
 
 const updateProducts = async (orderId: number, products: []) => {
