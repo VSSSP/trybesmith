@@ -15,10 +15,17 @@ const getOrderById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const order = await ordersServices.getOrderById(id);
   console.log(order);
-  res.status(200).json({ ...order });
+  res.status(200).json(order);
+};
+
+const getAll = async (_req: Request, res: Response) => {
+  const orders = await ordersServices.getAll();
+  console.log(orders);
+  res.status(200).json(orders);
 };
 
 export default {
   createOrder,
   getOrderById,
+  getAll,
 };

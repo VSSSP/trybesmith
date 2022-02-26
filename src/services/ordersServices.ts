@@ -11,7 +11,13 @@ const getOrderById = async (orderId: string) => {
   return orders;
 };
 
+const getAll = async () => {
+  const orders = await ordersModels.getAll();
+  return orders;
+};
+
 export default {
   createOrder,
   getOrderById,
+  getAll,
 };

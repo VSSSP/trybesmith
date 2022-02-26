@@ -5,6 +5,12 @@ import productMiddlewares from '../middlewares/productMiddlewares';
 
 const router = Router();
 
+router.get(
+  '/',
+  productMiddlewares.validateToken,
+  ordersControllers.getAll,
+);
+
 router.post(
   '/',
   productMiddlewares.validateToken,
