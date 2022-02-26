@@ -1,3 +1,4 @@
+import ordersModels from '../models/ordersModels';
 import orderJoiValidation from '../utils/orderJoiValidation';
 
 const orderValidation = (order: []) => {
@@ -7,6 +8,14 @@ const orderValidation = (order: []) => {
   return false;
 };
 
+const verifyIfOrderExists = async (id: string) => {
+  const order = await ordersModels.getOrderById(id);
+  console.log(order);
+  if (!order) return { code: 404, message: 'Order not found' };
+  return false;
+};
+
 export default {
   orderValidation,
+  verifyIfOrderExists,
 };

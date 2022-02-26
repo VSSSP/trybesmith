@@ -11,6 +11,14 @@ const createOrder = async (req: Request, res: Response) => {
   res.status(201).json({ order });
 };
 
+const getOrderById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const order = await ordersServices.getOrderById(id);
+  console.log(order);
+  res.status(200).json({ ...order });
+};
+
 export default {
   createOrder,
+  getOrderById,
 };

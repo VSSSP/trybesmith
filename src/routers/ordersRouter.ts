@@ -12,4 +12,11 @@ router.post(
   ordersControllers.createOrder,
 );
 
+router.get(
+  '/:id',
+  productMiddlewares.validateToken,
+  orderMiddlewares.validateOrder,
+  ordersControllers.getOrderById,
+);
+
 export default router;

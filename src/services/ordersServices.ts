@@ -6,6 +6,12 @@ const createOrder = async (userId: number, products: []): Promise<Order> => {
   return order;
 };
 
+const getOrderById = async (orderId: string) => {
+  const orders = await ordersModels.getOrderById(orderId);
+  return orders;
+};
+
 export default {
   createOrder,
+  getOrderById,
 };

@@ -10,6 +10,16 @@ const createOrder = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+const validateOrder = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  const checkOrder = await orderSchemas.verifyIfOrderExists(id);
+  if (checkOrder) {
+    return res.status(checkOrder.code).json({ error: checkOrder.message });
+  }
+  next();
+};
+
 export default {
   createOrder,
+  validateOrder,
 };
