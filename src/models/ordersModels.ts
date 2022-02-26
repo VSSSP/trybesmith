@@ -25,16 +25,27 @@ const createOrder = async (userId: number, products: []) => {
 //   console.log(rows);
   
 //   return rows;
-// };
+// };.
+
+export interface Order {
+  id: number;
+  userId: number;
+}
+
+export interface Product {
+  id: number;
+}
 
 const getOrderById = async (orderId: string) => {
-  const query = `SELECT odr.id, odr.userId, pdct.id as products From Trybesmith.Orders as odr
-  INNER JOIN Trybesmith.Products as pdct ON odr.id = pdct.orderId where odr.id = ?`;
-  const [rows] = await connection.execute(query, [orderId]);
-  const orders = rows as Orders[];
+  const orderQuery = 'SELECT * FROM Trybesmith.Orders WHERE id = ?';
+  const productsQuery = 'SELECT id FROM Trybesmith.Products WHERE orderId = ?';
+  const [rows] = await connection.execute(orderQuery, [orderId]);
+  const orders = rows as Order[];
   if (orders.length === 0) return false;
-  const getProducts = orders.map(({ products }) => products);
   const order = orders[0];
+  const [products] = await connection.execute(productsQuery, [order.id]);
+  const productsIds = products as Product[];
+  const getProducts = productsIds.map(({ id }) => id);
   const { id, userId } = order;
   return {
     id, 
