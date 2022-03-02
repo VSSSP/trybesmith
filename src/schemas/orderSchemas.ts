@@ -10,7 +10,6 @@ const orderValidation = (order: []) => {
 
 const verifyIfOrderExists = async (id: string) => {
   const order = await ordersModels.getOrderById(id);
-  console.log(order);
   if (!order) return { code: 404, message: 'Order not found' };
   return false;
 };

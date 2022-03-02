@@ -1,6 +1,6 @@
 import { ResultSetHeader } from 'mysql2';
 import connection from './connection';
-import { OrderIds, Product } from '../interfaces/ordersInterfaces';
+import { Orders } from '../interfaces/ordersInterfaces';
 
 const updateProducts = async (orderId: number, products: []) => {
   const query = 'UPDATE Trybesmith.Products SET orderId = ? WHERE id = ?';
@@ -20,39 +20,19 @@ const createOrder = async (userId: number, products: []) => {
 };
 
 const getOrderById = async (orderId: string) => {
-  const orderQuery = 'SELECT * FROM Trybesmith.Orders WHERE id = ?';
-  const productsQuery = 'SELECT id FROM Trybesmith.Products WHERE orderId = ?';
-  const [rows] = await connection.execute(orderQuery, [orderId]);
-  const orders = rows as OrderIds[];
-  if (orders.length === 0) return false;
-  const order = orders[0];
-  const [products] = await connection.execute(productsQuery, [order.id]);
-  const productsIds = products as Product[];
-  const getProducts = productsIds.map(({ id }) => id);
-  const { id, userId } = order;
-  return {
-    id, 
-    userId,
-    products: getProducts,
-  };
+  const query = `SELECT o.id, o.userId, p.id AS products FROM Trybesmith.Orders AS o
+  INNER JOIN Trybesmith.Products AS p on p.orderId = o.id WHERE o.id = ?`;
+  const [rows] = await connection.execute(query, [orderId]);
+  const order = rows as Orders[];
+  return order;
 };
 
 const getAll = async () => {
-  const query = 'SELECT * FROM Trybesmith.Orders';
+  const query = `SELECT o.id, o.userId, p.id AS products FROM Trybesmith.Orders AS o
+  INNER JOIN Trybesmith.Products AS p ON o.id = p.orderId`;
   const [rows] = await connection.execute(query);
-  const orders = rows as OrderIds[];
-  const getOrders = orders.map(async (order) => {
-    const productsQuery = 'SELECT id FROM Trybesmith.Products WHERE orderId = ?';
-    const [products] = await connection.execute(productsQuery, [order.id]);
-    const productsIds = products as Product[];
-    const getProducts = productsIds.map(({ id }) => id);
-    return {
-      id: order.id,
-      userId: order.userId,
-      products: getProducts,
-    };
-  });
-  return Promise.all(getOrders);
+  const orders = rows as Orders[];  
+  return orders;
 };
 
 export default {
